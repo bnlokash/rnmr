@@ -3,19 +3,21 @@ import { useSelector, useDispatch } from 'react-redux';
 const GET_USERS_URL = 'http://slowwly.robertomurray.co.uk/delay/1000/url/https://jsonplaceholder.typicode.com/users';
 
 const actions = {
-  request: 'api/request',
+  pending: 'api/pending',
   success: 'api/success',
   failure: 'api/failure',
 };
 
-export const apiReducer = (state = {
+const initialState = {
   users: [],
   isFetching: false,
   didError: false,
   error: undefined,
-}, action) => {
+};
+
+export const apiReducer = (state = initialState, action) => {
   switch(action.type) {
-    case actions.request:
+    case actions.pending:
       return {
         ...state,
         isFetching: true,
@@ -42,16 +44,15 @@ export const apiReducer = (state = {
   }
 };
 
-const getUsers = () =>
-  dispatch => {
-    dispatch({ type: actions.request });
-    return fetch(GET_USERS_URL)
-      .then(response => response.json())
-      .then(
-        json => dispatch({ type: actions.success, payload: json }),
-        error => dispatch({ type: actions.failure, error: true, payload: error })
-      );
-  }
+const getUsers = dispatch => {
+  dispatch({ type: actions.pending });
+  return fetch(GET_USERS_URL)
+    .then(response => response.json())
+    .then(
+      json => dispatch({ type: actions.success, payload: json }),
+      error => dispatch({ type: actions.failure, error: true, payload: error })
+    );
+}
 
 const apiSelector = state => state.api;
 
@@ -59,5 +60,5 @@ export default () => {
   const state = useSelector(apiSelector);
   const dispatch = useDispatch();
 
-  return [state, () => dispatch(getUsers())];
+  return [state, () => dispatch(getUsers)];
 }
