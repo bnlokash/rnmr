@@ -1,24 +1,19 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Counter from 'src/components/Counter';
-import FetchButton from 'src/components/FetchButton';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Counter from '../Counter';
+import FetchButton from '../FetchButton';
 
-const Root = () => {
-  return <>
-    <View style={styles.container}>
-      <Counter />
-      <FetchButton />
-    </View>
-  </>
-}
+const Tab = createBottomTabNavigator();
+
+const Root = () => 
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Counter" component={Counter} />
+        <Tab.Screen name="FetchButton" component={FetchButton} />
+      </Tab.Navigator>
+    </NavigationContainer>
 
 export default Root;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button, Text } from 'react-native';
-import { useCount } from 'src/redux/hooks';
+import { useCount } from '../../redux/hooks';
+import Container from '../Container';
 
 const Counter = () => {
   const [state, increment, decrement] = useCount();
 
-  return <>
+  return <Container>
     <Text style={{ fontSize: 30 }}>{state}</Text>
     <Button
       title="+"
@@ -17,7 +18,7 @@ const Counter = () => {
       color="#f194ff"
       onPress={decrement}
     />
-  </>
-}; 
+  </Container>
+};
 
 export default Counter;

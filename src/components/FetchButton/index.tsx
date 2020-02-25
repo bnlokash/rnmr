@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Text, ActivityIndicator } from 'react-native';
-import { useApi } from 'src/redux/hooks';
+import { useApi } from '../../redux/hooks';
+import Container from '../Container';
 
 const FetchButton = () => {
   const [state, getUsers] = useApi();
@@ -12,7 +13,7 @@ const FetchButton = () => {
     return "Idle";
   };
 
-  return <>
+  return <Container>
     <Button
       title={title()}
       color="#f194ff"
@@ -25,7 +26,7 @@ const FetchButton = () => {
     {state.didError && <Text style={{ color: 'red' }}>
       {state.error.toString()}
     </Text>}
-  </>
+  </Container>
 }; 
 
 export default FetchButton;
